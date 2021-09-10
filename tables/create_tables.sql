@@ -42,3 +42,9 @@ CREATE TABLE records (
     acc_ref NUMBER(10),
     oper_date DATE
     )    
+
+CREATE TABLE tarifs (
+    id NUMBER(10) NOT NULL PRIMARY KEY,
+    name VARCHAR2(100),
+    cost NUMBER(10,2)
+    )
