@@ -23,3 +23,22 @@ CREATE TABLE product_type (
     end_date DATE,
     tarif_ref NUMBER(10)
     )
+
+CREATE TABLE accounts (
+    id NUMBER(10) NOT NULL PRIMARY KEY,
+    name VARCHAR2(100),
+    saldo NUMBER(10,2),
+    client_ref NUMBER(10),
+    open_date DATE,
+    close_date DATE,
+    product_ref NUMBER(10),
+    acc_num VARCHAR2(25)
+    )
+
+CREATE TABLE records (
+    id NUMBER(10) NOT NULL PRIMARY KEY,
+    dt NUMBER(1),
+    sum NUMBER(10,2),
+    acc_ref NUMBER(10),
+    oper_date DATE
+    )    
