@@ -9,6 +9,9 @@ alter table "PRODUCTS" add constraint
 alter table "ACCOUNTS" add constraint
 "ACC_CL_FK" foreign key ("CLIENT_REF") references "CLIENTS" ("ID")
 /
+alter table "ACCOUNTS" add constraint
+"ACC_PROD_FK(PRODUCT_REF)" foreign key ("PRODUCT_REF") references "PRODUCTS" ("ID")
+/   
 
 alter table "RECORDS" add constraint
 "REC_ACC_FK(ACC_REF)" foreign key ("ACC_REF") references "ACCOUNTS" ("ID")
