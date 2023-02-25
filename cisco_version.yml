@@ -1,0 +1,8 @@
+---
+- name: SHOW VERSION CISCO
+  hosts: cisco_switch
+  
+  tasks:
+  - name: SHOW VER
+    ios_command:
+      commands: show version
