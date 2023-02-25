@@ -1,6 +1,7 @@
 ---
 - name: SHOW VERSION CISCO
   hosts: cisco_switch
+  gather_facts: false
   
   tasks:
   - name: SHOW VER
