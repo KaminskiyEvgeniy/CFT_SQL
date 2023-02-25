@@ -1,0 +1,52 @@
+---
+## Playbook to get system time and append it to backup files
+- name: BACKUP CONFIGURATION
+  hosts: localhost
+  
+  tasks:
+   - name: GET ANSIBLE DATE/TIME FACTS
+     setup:
+       filter: "ansible_date_time"
+       gather_subset: "!all"
+       
+   - name: STORE DTG AS FACT
+     set_fact:
+       DTG: "{{ ansible_date_time.date }}"
+   
+   - name: CREATE DIRECTORY {{ hostvars.localhost.DTG }}
+     file:
+       path: ~/network-programmability/backups/{{hostvars.localhost.DTG}}
+       state: directory
+  run_once: true
+  
+- name: BACKUP CISCO
+  hosts: cisco_switch
+  gather_facts: false
+  
+  tasks:
+   - name: SHOWN RUN ON DEVICE
+     ios_command:
+       commands:
+         - show run
+     register: config
+   
+   - name: SAVE OUTPUT TO ~/network-programmability/backups/
+     copy:
+       content: "{{config.stdout[0]}}"
+       dest: "~/network-programmability/backups/{{ hostvars.localhost.DTG }}/{{inventory_hostname}}-{{hostvars.localhost.DTG}}-config.txt"
+  
+  vars:
+    command_list:
+      # show clock
+      - show ip interface brief | exc admin
+      
+  tasks:
+    - name: RUN THE SHOWN COMMANDS AND SAVE OUTPUT
+      ios_command:
+        commands: "{{ command_list }}"
+      register: showoutput
+      
+    - name: "PUT ALL THE FILES TOGETHER INTO ONE NICE TEXT FILE"
+      template:
+        src: template.j2
+        dest: "~/network-programmability/backups/{{ hosvars.localhost.DTG }}"
